@@ -48,8 +48,8 @@ The script will automatically give you the connection.
 ***---> In case of complications or disconnection issues, you can just manually trigger the connection at the URL link given by the program <---***
 
 ***---> If the upload is still failing, check if the target user has Administrator permissions <---***
-
-
+ 
+***---> Correct Syntax: http://target.com/wordpress | Wrong syntax: http://target.com/wordpress/ <---***
 
 ## 
 
