@@ -1,3 +1,5 @@
+![LOGO](https://github.com/JoaoPedroMoreira02/Pwn_Wordpress/assets/103542430/7c6e38fe-7fda-4f97-9da1-b1a619f975d2)
+
 
 # Evil Wordpress Plugin (Malicous)
 
