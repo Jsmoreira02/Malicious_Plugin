@@ -6,6 +6,9 @@ from re import search
 from os import system
 from zipfile import ZipFile
 from termcolor import colored as color
+from urllib3 import disable_warnings, exceptions
+
+disable_warnings(exceptions.InsecureRequestWarning)
 
 parser = ArgumentParser(
     description="Wordpress Malicious plugin upload",
