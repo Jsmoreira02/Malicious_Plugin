@@ -49,11 +49,11 @@ The script will automatically give you the connection.
 
 ***---> If the upload is still failing, check if the target user has Administrator permissions <---***
  
-***---> Correct Syntax: http://target.com/wordpress | Wrong syntax: http://target.com/wordpress/ <---***
+***---> Correct Syntax: "http://IP/wordpress | Wrong syntax: http://IP/wordpress/ <---***
 
 ## 
 
-- ***This script is set to create a reverse shell for Linux systems, but you can change it for Windows environments***
+- ***Good hacking :)***
 
 
 
