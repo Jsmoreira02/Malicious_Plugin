@@ -1,7 +1,7 @@
 ![LOGO](https://github.com/JoaoPedroMoreira02/Pwn_Wordpress/assets/103542430/7c6e38fe-7fda-4f97-9da1-b1a619f975d2)
 
 
-# Evil Wordpress Plugin (Malicous)
+# Evil Wordpress Plugin (Malicious)
 
 Malicious, remotely performs an upload of a PHP reverse shell in the form of a plugin on a WordPress site. The exploit is only successful with user credentials, so make sure you know the target username and password and check if the target user has Administrator permissions.
 
