@@ -3,7 +3,7 @@
 
 # Evil Wordpress Plugin (Malicous)
 
-Malicious, remotely performs an upload of a PHP reverse shell in the form of a plugin on a WordPress site. The exploit is only successful with user credentials, so make sure you know the target username and password.
+Malicious, remotely performs an upload of a PHP reverse shell in the form of a plugin on a WordPress site. The exploit is only successful with user credentials, so make sure you know the target username and password and check if the target user has Administrator permissions.
 
 Install by running:
 
@@ -48,8 +48,6 @@ nc -lvp {LOCAL PORT}
 The script will automatically give you the connection. 
 
 ***---> In case of complications or disconnection issues, you can just manually trigger the connection at the URL link given by the program <---***
-
-***---> If the upload is still failing, check if the target user has Administrator permissions <---***
  
 ***---> Correct Syntax: "http://IP/wordpress | Wrong syntax: http://IP/wordpress/ <---***
 
