@@ -19,7 +19,6 @@ parser.add_argument("-u", "--username", metavar="", type=str, help="Wordpress Us
 parser.add_argument("-p", '--password', metavar="", type=str, help="Wordpress Password")
 parser.add_argument("-L", "--LHOST", metavar="", type=str, help="Attacker IP address")
 parser.add_argument("-P", "--LPORT", metavar="", type=int, help="Attacker LOCAL PORT")
-
 args = parser.parse_args()
 
 host = args.target

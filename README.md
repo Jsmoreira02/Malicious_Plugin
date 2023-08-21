@@ -8,7 +8,7 @@ Malicious, remotely performs an upload of a PHP reverse shell in the form of a p
 Install by running:
 
 ```bash
-  git clone https://github.com/JoaoPedroMoreira02/Pwn_Wordpress.git
+  git clone https://github.com/Jsmoreira02/Pwn_Wordpress.git
 ```
     
 ## Parameters [Running Script]
