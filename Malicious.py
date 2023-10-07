@@ -161,7 +161,7 @@ class Script:
                         print("[+] Creating Plugin...")
                         print("---" * 15 + "\n")
 
-                        self.exploit(session)
+                        return self.exploit(session)
                 else:
                     print("===" * 15)
                     return "\n[X] Login Failed! Check the Credentials\n"
