@@ -5,7 +5,6 @@ from random import choice
 from re import search
 from os import remove
 from zipfile import ZipFile
-from termcolor import colored as color
 from urllib3 import disable_warnings, exceptions
 
 disable_warnings(exceptions.InsecureRequestWarning)
@@ -84,7 +83,7 @@ class Script:
         except Exception:
 
             remove("rev.zip")
-            print(color("[✓] Plugin installed successfully\n", "white", attrs=["bold"]))
+            print("\x1b[1;37[✓] Plugin installed successfully\x1b[0m\n")
             print("[!] If you don't get the shell connection, manually trigger the URL:\n")
             print("***" * 20)
             print(self.activate_shell)
