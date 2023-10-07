@@ -83,7 +83,7 @@ class Script:
         except Exception:
 
             remove("rev.zip")
-            print("\x1b[1;37[✓] Plugin installed successfully\x1b[0m\n")
+            print("\x1b[1;37m[✓] Plugin installed successfully\x1b[0m\n")
             print("[!] If you don't get the shell connection, manually trigger the URL:\n")
             print("***" * 20)
             print(self.activate_shell)
