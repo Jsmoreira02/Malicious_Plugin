@@ -1,5 +1,17 @@
-![LOGO](https://github.com/JoaoPedroMoreira02/Pwn_Wordpress/assets/103542430/7c6e38fe-7fda-4f97-9da1-b1a619f975d2)
 
+<div align="center">
+
+  ![LOGO](https://github.com/JoaoPedroMoreira02/Pwn_Wordpress/assets/103542430/7c6e38fe-7fda-4f97-9da1-b1a619f975d2)    
+  
+  [![License: GPL-2.0](https://img.shields.io/badge/License-GPL--2.0-blue.svg)](https://opensource.org/licenses/GPL-2.0)
+  
+  <img src="https://img.shields.io/badge/Language%20-Python3-green.svg" style="max-width: 100%;">
+  <img src="https://img.shields.io/badge/Tool%20-Shell upload | reverse shell-brown.svg" style="max-width: 100%;">
+  <img src="https://img.shields.io/badge/Target OS%20-Linux-yellow.svg" style="max-width: 100%;">
+  <img src="https://img.shields.io/badge/Hacking tool%20-teste?style=flat-square" style="max-width: 100%;">  
+  <img src="https://img.shields.io/badge/Type%20-Script-red.svg" style="max-width: 100%;">
+
+</div>
 
 # Evil Wordpress Plugin (Malicious)
 
@@ -55,6 +67,7 @@ The script will automatically give you the connection.
 
 - ***Good hacking :)***
 
-
+# Warning:    
+> I am not responsible for any illegal use or damage caused by this tool. It was written for fun, not evil and is intended to raise awareness about cybersecurity
 
 
