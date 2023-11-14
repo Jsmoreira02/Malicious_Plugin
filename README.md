@@ -64,9 +64,7 @@ options:
 ```
 
 
-### In case of complications or disconnection issues, you can just manually trigger the connection at the URL link given by the program: ###
-
-![Screenshot_20231109_183851](https://github.com/Jsmoreira02/Pwn_Wordpress/assets/103542430/34be1497-4887-4960-8a72-ab4c06022825)
+### In case of complications or disconnection issues, you can just manually trigger the connection at the URL link given by the program ###
 
  
 ***---> Correct Syntax: "http://IP/wordpress | Wrong syntax: http://IP/wordpress/ <---***
