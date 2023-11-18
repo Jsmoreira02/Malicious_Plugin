@@ -23,7 +23,7 @@ Install by running:
   git clone https://github.com/Jsmoreira02/Pwn_Wordpress.git
 ```
     
-## Parameters [Running Script]
+## [Running Script]
 
 ### Attacking the Target Website: ###
 
