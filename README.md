@@ -1,7 +1,8 @@
 
 <div align="center">
 
-  ![LOGO](https://github.com/JoaoPedroMoreira02/Pwn_Wordpress/assets/103542430/7c6e38fe-7fda-4f97-9da1-b1a619f975d2)    
+  <img src="https://github.com/Jsmoreira02/Pwn_wordpress/assets/103542430/6392fe40-bfff-4784-acfd-645ba2155574" height=130>
+
   
   [![License: GPL-2.0](https://img.shields.io/badge/License-GPL--2.0-blue.svg)](https://opensource.org/licenses/GPL-2.0)
   
