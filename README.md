@@ -3,7 +3,7 @@
 
   <img src="https://github.com/Jsmoreira02/Pwn_wordpress/assets/103542430/6392fe40-bfff-4784-acfd-645ba2155574" height=130>
   
-  <img src="https://img.shields.io/badge/Language%20-Python3-green.svg" style="max-width: 100%;">
+  <img src="https://img.shields.io/badge/Language%20-Python3-blue.svg" style="max-width: 100%;">
   <img src="https://img.shields.io/badge/Tool%20-Shell upload | reverse shell-brown.svg" style="max-width: 100%;">
   <img src="https://img.shields.io/badge/Target OS%20-Linux-yellow.svg" style="max-width: 100%;">
   <img src="https://img.shields.io/badge/Hacking tool%20-teste?style=flat-square" style="max-width: 100%;">  
