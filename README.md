@@ -2,9 +2,6 @@
 <div align="center">
 
   <img src="https://github.com/Jsmoreira02/Pwn_wordpress/assets/103542430/6392fe40-bfff-4784-acfd-645ba2155574" height=130>
-
-  
-  [![License: GPL-2.0](https://img.shields.io/badge/License-GPL--2.0-blue.svg)](https://opensource.org/licenses/GPL-2.0)
   
   <img src="https://img.shields.io/badge/Language%20-Python3-green.svg" style="max-width: 100%;">
   <img src="https://img.shields.io/badge/Tool%20-Shell upload | reverse shell-brown.svg" style="max-width: 100%;">
