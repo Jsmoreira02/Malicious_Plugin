@@ -18,7 +18,7 @@ Malicious, remotely performs an upload of a PHP reverse shell in the form of a p
 Install by running:
 
 ```bash
-  git clone https://github.com/Jsmoreira02/_Malicious.git
+  git clone https://github.com/Jsmoreira02/Pwn_wordpress.git
 ```
     
 ## Attacking the Target Website:
