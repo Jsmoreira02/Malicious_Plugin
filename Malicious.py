@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from requests import Session
 from argparse import ArgumentParser
 from string import ascii_lowercase
